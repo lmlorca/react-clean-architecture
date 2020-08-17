@@ -1,6 +1,5 @@
 import React from "react";
 import { render } from "react-dom";
+import { Blog } from "./components/blog";
 
-import HelloWorld from "./helloworld";
-
-render(<HelloWorld />, document.getElementById("root"));
+render(<Blog />, document.getElementById("root"));

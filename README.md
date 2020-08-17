@@ -13,7 +13,7 @@ Minimal React setup, con utilidades básicas.
 
 - `webpack` - _task runner_ / _module-bundler_, para producir un archivo de varios, ejecutar tareas, etc.
 - `webpack-cli` - Utilidades CLI para manejar `webpack`.
-- `webpack-dev-server` - Servidor local para `webpack`, soporta _live-reload_.
+- `webpack-dev-server` - Servidor local para `webpack`, soporta _live-reload_ y _hot module reload_.
 
 ### Babel
 
@@ -28,3 +28,7 @@ Minimal React setup, con utilidades básicas.
 ## Run
 
 `npm start`
+
+## Build
+
+`npm run build`
