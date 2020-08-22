@@ -17,12 +17,14 @@ application.registerAPI(inMemoryFakeApi);
 application.registerAPI(jsonPlaceholderApi);
 
 function Start() {
-  const [inStateAPI, setInStateAPI] = React.useState(application.API_current);
+  const [inStateAPI, setInStateAPI] = React.useState(application.currentAPI);
 
   blog.setAPI(inStateAPI);
 
-  function APISwitch(APIKey) {
-    const selectedAPI = application.API_list.find((api) => api.url === APIKey);
+  function handleChangeApi(api_key) {
+    const selectedAPI = application.registeredAPIs.find(
+      (api) => api.url === api_key
+    );
     setInStateAPI(selectedAPI);
     blog.setAPI(inStateAPI);
   }
@@ -30,12 +32,12 @@ function Start() {
   return (
     <>
       <Header
-        APISwitch={APISwitch}
-        APIOptions={application.API_list.reverse().map((api) => ({
+        changeApi={handleChangeApi}
+        options={application.registeredAPIs.reverse().map((api) => ({
           url: api.url,
           description: api.description,
         }))}
-        APISelected={blog.rest_api.url}
+        initial={blog.rest_api.url}
       />
       <Blog blog={blog} key={blog.rest_api.url} />
     </>

@@ -1,11 +1,17 @@
+import { REST_API } from "./blog/rest-api";
+
 export class ApplicationSetup {
   constructor() {
-    this.API_list = [];
-    this.API_current = null;
+    this.registeredAPIs = [];
+    this.currentAPI = null;
   }
 
   registerAPI(rest_api) {
-    this.API_list.push(rest_api);
-    this.API_current = rest_api;
+    if (!(rest_api instanceof REST_API)) {
+      throw new Error("A REST API object must be provided.");
+    }
+
+    this.registeredAPIs.push(rest_api);
+    this.currentAPI = rest_api;
   }
 }
