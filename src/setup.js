@@ -12,6 +12,6 @@ export class ApplicationSetup {
     }
 
     this.registeredAPIs.push(rest_api);
-    this.currentAPI = rest_api;
+    this.currentAPI = this.registeredAPIs[0];
   }
 }

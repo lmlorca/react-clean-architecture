@@ -12,9 +12,9 @@ const application = new ApplicationSetup();
 const jsonPlaceholderApi = new JSONPaceholderREST_API();
 const inMemoryFakeApi = new InMemoryFakeAPI();
 
-// Last registered will be initially used
-application.registerAPI(inMemoryFakeApi);
+// First registered will be the initial value
 application.registerAPI(jsonPlaceholderApi);
+application.registerAPI(inMemoryFakeApi);
 
 function Start() {
   const [inStateAPI, setInStateAPI] = React.useState(application.currentAPI);
@@ -37,7 +37,7 @@ function Start() {
           url: api.url,
           description: api.description,
         }))}
-        initial={blog.rest_api.url}
+        selected={blog.rest_api.url}
       />
       <Blog blog={blog} key={blog.rest_api.url} />
     </>
