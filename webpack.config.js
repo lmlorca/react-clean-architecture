@@ -1,5 +1,5 @@
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./src/start.js",
   module: {
     rules: [
       {
@@ -12,6 +12,7 @@ module.exports = {
   devServer: {
     contentBase: __dirname + "/dist",
   },
+  devtool: "inline-source-map",
   output: {
     path: __dirname + "/dist",
     filename: "bundle.js",

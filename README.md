@@ -1,6 +1,6 @@
 # react-test
 
-Minimal React setup, con utilidades básicas.
+Minimal React setup, 0 dependencias y arquitectura limpia.
 
 ## Dependencias
 
@@ -20,6 +20,7 @@ Minimal React setup, con utilidades básicas.
 - `@babel/core` - Transpilador de JavaScript, basado en presets
 - `@babel/preset-env` - Presets para ES6 en adelante
 - `@babel/preset-react` - Preset especial para JSX
+- `@babel/plugin-transform-runtime` - Babel polyfills (para usar async/await syntax)
 
 ## Install
 

@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { fetchPosts } from "../api/fetch-posts";
 import { Post } from "./post";
 
-export function Blog() {
+export function Blog(props) {
   const [posts, setPosts] = useState([]);
 
-  useEffect(function () {
-    fetchPosts().then((posts) => setPosts(posts));
-  }, []);
+  useEffect(
+    function () {
+      props.blog.getPosts().then((posts) => setPosts(posts));
+    },
+    [props.APIKey]
+  );
 
   return (
-    <div className="container max-w-screen-md mx-auto">
+    <div className="container max-w-screen-md mx-auto pt-32">
       {posts.map((post) => (
         <Post key={post.id} title={post.title} body={post.body} />
       ))}
