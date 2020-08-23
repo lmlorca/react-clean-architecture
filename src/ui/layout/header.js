@@ -3,8 +3,8 @@ import { Select } from "../elements";
 
 export function Header(props) {
   return (
-    <header className="fixed w-full flex items-center justify-between px-4 py-3 bg-gray-400">
-      <div>Simple and Clean React</div>
+    <header className="fixed w-full flex items-center justify-between px-4 py-3 bg-gray-600">
+      <div className="font-bold text-xl text-white">Simple and Clean React</div>
       <div className="inline-block relative w-64">
         <Select
           onChange={(e) => props.changeApi(e.target.value)}
@@ -12,10 +12,10 @@ export function Header(props) {
         >
           {props.options.map((option) => (
             <option
-              key={option.url}
-              value={option.url}
+              key={option.key}
+              value={option.key}
               style={{
-                display: option.url === props.selected ? "none" : "block",
+                display: option.key === props.selected ? "none" : "block",
               }}
             >
               {option.description}
