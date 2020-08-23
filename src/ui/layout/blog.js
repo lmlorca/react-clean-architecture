@@ -2,31 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Post } from "../blocks";
 
 export function Blog(props) {
-  const [posts, setPosts] = useState([]);
-
-  useEffect(function () {
-    props.blog.getPosts().then((posts) => setPosts(posts));
-  }, []);
-
-  function handleEditPost(editedPost) {
-    if (!props.blog.backup.find((post) => post.id === editedPost.id)) {
-      props.blog.makeBackup(posts.find((post) => post.id === editedPost.id));
-    }
-    setPosts(
-      posts.map((post) => {
-        if (post.id !== editedPost.id) return post;
-
-        return {
-          id: editedPost.id,
-          title: editedPost.title,
-          body: editedPost.body,
-        };
-      })
-    );
+  async function loadPosts() {
+    setPosts(await props.blog.getPosts());
   }
 
-  async function doPostEdit(post) {
-    const editedPost = await props.blog.editPost(post);
+  function handleEditPost(editedPost) {
+    props.blog.makeBackup(posts.find((post) => post.id === editedPost.id));
 
     setPosts(
       posts.map((post) => {
@@ -42,7 +23,6 @@ export function Blog(props) {
       setPosts(
         posts.map((post) => {
           if (post.id !== postBackup.id) return post;
-
           return postBackup;
         })
       );
@@ -56,6 +36,23 @@ export function Blog(props) {
     }
   }
 
+  async function updatePost(post) {
+    const editedPost = await props.blog.editPost(post);
+
+    setPosts(
+      posts.map((post) => {
+        if (post.id !== editedPost.id) return post;
+        return editedPost;
+      })
+    );
+  }
+
+  const [posts, setPosts] = useState([]);
+
+  useEffect(function () {
+    loadPosts();
+  }, []);
+
   return (
     <div className="container max-w-screen-md mx-auto pt-32">
       {posts.map((post) => (
@@ -65,7 +62,7 @@ export function Blog(props) {
           title={post.title}
           body={post.body}
           handleEditPost={(post) => handleEditPost(post)}
-          confirmEdit={() => doPostEdit(post)}
+          updatePost={() => updatePost(post)}
           cancelEdit={() => restorePost(post.id)}
           delete={() => deletePost(post.id)}
         />

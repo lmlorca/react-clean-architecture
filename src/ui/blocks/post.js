@@ -75,13 +75,13 @@ export function Post(props) {
               props.cancelEdit();
               setIsEditing(false);
             }}
-            className="bg-gray-100 hover:bg-gray-300 text-sm font-bold py-2 px-4 m-1"
+            className="bg-gray-100 hover:bg-gray-300 text-sm font-bold py-2 px-4 m-1 rounded"
           >
             Cancel
           </button>
           <button
-            onClick={() => props.confirmEdit().then(() => setIsEditing(false))}
-            className="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 m-1"
+            onClick={() => props.updatePost().then(() => setIsEditing(false))}
+            className="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 m-1 rounded"
           >
             Confirm
           </button>

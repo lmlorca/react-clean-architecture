@@ -5,10 +5,10 @@ export class REST_API {
   async getPosts() {
     throw new Error(this.error);
   }
-  async deletePost(id) {
+  async deletePost() {
     throw new Error(this.error);
   }
-  async editPost(post) {
+  async editPost() {
     throw new Error(this.error);
   }
 }

@@ -2,7 +2,7 @@ import { REST_API } from "./rest-api";
 import { FetchPosts } from "./fetch-posts";
 import { EditPost } from "./edit-post";
 import { DeletePost } from "./delete-post";
-import { BackupPost } from "./backup-post";
+import { MakeBackup } from "./make-backup";
 import { RegisterAPI } from "./register-api";
 
 export class BlogInteractor {
@@ -11,7 +11,7 @@ export class BlogInteractor {
       fetchPosts: new FetchPosts(),
       editPost: new EditPost(),
       deletePost: new DeletePost(),
-      backupPost: new BackupPost(),
+      makeBackup: new MakeBackup(),
       registerAPI: new RegisterAPI(),
     };
     this.backup = [];
@@ -34,7 +34,7 @@ export class BlogInteractor {
   }
 
   makeBackup(post) {
-    this.cases.backupPost.execute(this, post);
+    this.cases.makeBackup.execute(this, post);
   }
 
   restoreBackup(id) {
