@@ -1,32 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { Post } from "../blocks";
 
 export function Blog(props) {
-  async function loadPosts() {
-    setPosts(await props.blog.getPosts());
-  }
-
-  function handleEditPost(editedPost) {
-    props.blog.makeBackup(posts.find((post) => post.id === editedPost.id));
-
+  function restorePost(id) {
+    const postBackup = props.blog.restoreBackup(id);
     setPosts(
       posts.map((post) => {
-        if (post.id !== editedPost.id) return post;
-        return editedPost;
+        if (post.id !== postBackup.id) return post;
+        return postBackup;
       })
     );
-  }
-
-  function restorePost(id) {
-    const postBackup = props.blog.backup.find((post) => post.id === id);
-    if (postBackup) {
-      setPosts(
-        posts.map((post) => {
-          if (post.id !== postBackup.id) return post;
-          return postBackup;
-        })
-      );
-    }
   }
 
   async function deletePost(id) {
@@ -47,9 +30,24 @@ export function Blog(props) {
     );
   }
 
-  const [posts, setPosts] = useState([]);
+  function handleEditPost(editedPost) {
+    props.blog.makeBackup(posts.find((post) => post.id === editedPost.id));
 
-  useEffect(function () {
+    setPosts(
+      posts.map((post) => {
+        if (post.id !== editedPost.id) return post;
+        return editedPost;
+      })
+    );
+  }
+
+  const [posts, setPosts] = React.useState([]);
+
+  async function loadPosts() {
+    setPosts(await props.blog.getPosts());
+  }
+
+  React.useEffect(function () {
     loadPosts();
   }, []);
 

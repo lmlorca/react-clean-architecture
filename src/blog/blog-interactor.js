@@ -3,6 +3,7 @@ import { FetchPosts } from "./fetch-posts";
 import { EditPost } from "./edit-post";
 import { DeletePost } from "./delete-post";
 import { MakeBackup } from "./make-backup";
+import { RestoreBackup } from "./restore-backup";
 import { RegisterAPI } from "./register-api";
 
 export class BlogInteractor {
@@ -12,9 +13,11 @@ export class BlogInteractor {
       editPost: new EditPost(),
       deletePost: new DeletePost(),
       makeBackup: new MakeBackup(),
+      restoreBackup: new RestoreBackup(),
       registerAPI: new RegisterAPI(),
     };
     this.backup = [];
+    this.posts = [];
     this.registeredAPIs = [];
   }
 
@@ -38,11 +41,12 @@ export class BlogInteractor {
   }
 
   restoreBackup(id) {
-    return this.backup.find((post) => post.id === id);
+    return this.cases.restoreBackup.execute(this, id);
   }
 
   async getPosts() {
-    return await this.cases.fetchPosts.execute(this.rest_api);
+    this.posts = await this.cases.fetchPosts.execute(this.rest_api);
+    return this.posts;
   }
 
   async editPost(editedPost) {
