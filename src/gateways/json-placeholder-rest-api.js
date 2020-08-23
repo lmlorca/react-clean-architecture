@@ -16,6 +16,24 @@ export class JSONPaceholderREST_API extends REST_API {
   async deletePost(id) {
     return fetch(this.url + id, {
       method: "DELETE",
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
     }).then((res) => res);
+  }
+
+  async editPost(post) {
+    return fetch(this.url + post.id, {
+      method: "PUT",
+      body: JSON.stringify({
+        title: post.title,
+        body: post.body,
+      }),
+      headers: {
+        "Content-type": "application/json; charset=UTF-8",
+      },
+    })
+      .then((res) => res.json())
+      .then((json) => json);
   }
 }

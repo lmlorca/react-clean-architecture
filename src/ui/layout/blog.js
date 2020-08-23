@@ -8,29 +8,45 @@ export function Blog(props) {
     props.blog.getPosts().then((posts) => setPosts(posts));
   }, []);
 
-  function handleEditPost(post) {
+  function handleEditPost(editedPost) {
+    if (!props.blog.backup.find((post) => post.id === editedPost.id)) {
+      props.blog.makeBackup(posts.find((post) => post.id === editedPost.id));
+    }
     setPosts(
-      posts.map((p) => {
-        if (p.id !== post.id) return p;
+      posts.map((post) => {
+        if (post.id !== editedPost.id) return post;
 
         return {
-          id: post.id,
-          title: post.title,
-          body: post.body,
+          id: editedPost.id,
+          title: editedPost.title,
+          body: editedPost.body,
         };
       })
     );
   }
 
-  async function editPost(post) {
-    const newPost = await props.blog.editPost(post);
+  async function doPostEdit(post) {
+    const editedPost = await props.blog.editPost(post);
 
     setPosts(
       posts.map((post) => {
-        if (post.id !== newPost.id) return post;
-        return newPost;
+        if (post.id !== editedPost.id) return post;
+        return editedPost;
       })
     );
+  }
+
+  function restorePost(id) {
+    const postBackup = props.blog.backup.find((post) => post.id === id);
+    if (postBackup) {
+      setPosts(
+        posts.map((post) => {
+          if (post.id !== postBackup.id) return post;
+
+          return postBackup;
+        })
+      );
+    }
   }
 
   async function deletePost(id) {
@@ -49,7 +65,8 @@ export function Blog(props) {
           title={post.title}
           body={post.body}
           handleEditPost={(post) => handleEditPost(post)}
-          confirmEdit={() => editPost(post)}
+          confirmEdit={() => doPostEdit(post)}
+          cancelEdit={() => restorePost(post.id)}
           delete={() => deletePost(post.id)}
         />
       ))}
