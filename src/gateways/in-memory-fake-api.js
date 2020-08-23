@@ -22,21 +22,21 @@ export class InMemoryFakeAPI extends REST_API {
 
   async editPost(post) {
     const exists = posts.find((p) => p.id === post.id);
-    if (!exist) {
+    if (!exists) {
       return Promise.resolve({ status: 404 });
     }
 
     posts = posts.map((p) => {
-      if (p.id === post.id) {
-        return {
-          id: post.id,
-          title: post.title,
-          body: post.body,
-        };
-      }
+      if (p.id !== post.id) return p;
 
-      return p;
+      return {
+        id: post.id,
+        title: post.title,
+        body: post.body,
+      };
     });
+
+    return Promise.resolve(post);
   }
 }
 
