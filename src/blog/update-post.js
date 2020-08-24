@@ -1,13 +1,17 @@
 export class UpdatePost {
-  async execute(interactor, post) {
-    const editedPost = await interactor.rest_api.updatePost(post);
+  constructor(blog) {
+    this.blog = blog;
+  }
 
-    interactor.posts = interactor.posts.map((post) => {
+  async execute(post) {
+    const editedPost = await this.blog.rest_api.updatePost(post);
+
+    this.blog.posts = this.blog.posts.map((post) => {
       if (post.id != editedPost.id) return post;
       return editedPost;
     });
 
-    interactor.backup = interactor.backup.filter(
+    this.blog.backup = this.blog.backup.filter(
       (post) => post.id !== editedPost.id
     );
   }

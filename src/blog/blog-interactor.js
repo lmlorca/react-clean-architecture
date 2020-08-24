@@ -1,20 +1,24 @@
 import { REST_API } from "./rest-api";
 import { FetchPosts } from "./fetch-posts";
 import { UpdatePost } from "./update-post";
+import { EditPosts } from "./edit-post";
 import { DeletePost } from "./delete-post";
 import { MakeBackup } from "./make-backup";
 import { RestoreBackup } from "./restore-backup";
 import { RegisterAPI } from "./register-api";
+import { ChangeAPI } from "./change-api";
 
 export class BlogInteractor {
   constructor() {
     this.cases = {
-      fetchPosts: new FetchPosts(),
-      updatePost: new UpdatePost(),
-      deletePost: new DeletePost(),
-      makeBackup: new MakeBackup(),
-      restoreBackup: new RestoreBackup(),
-      registerAPI: new RegisterAPI(),
+      fetchPosts: new FetchPosts(this),
+      updatePost: new UpdatePost(this),
+      editPost: new EditPosts(this),
+      deletePost: new DeletePost(this),
+      makeBackup: new MakeBackup(this),
+      restoreBackup: new RestoreBackup(this),
+      registerAPI: new RegisterAPI(this),
+      changeAPI: new ChangeAPI(this),
     };
     this.posts = [];
     this.backup = [];
@@ -25,42 +29,36 @@ export class BlogInteractor {
     if (!(rest_api instanceof REST_API)) {
       throw new Error("A REST API object must be provided.");
     }
-
-    if (!this.rest_api) this.rest_api = rest_api;
-
-    this.cases.registerAPI.execute(this, rest_api);
+    this.cases.registerAPI.execute(rest_api);
   }
 
   changeAPI(key) {
-    this.rest_api = this.registeredAPIs.find((api) => api.key === key);
+    this.cases.changeAPI.execute(key);
     return this.rest_api.key;
   }
 
   makeBackup(id) {
-    this.cases.makeBackup.execute(this, id);
+    this.cases.makeBackup.execute(id);
   }
 
   restoreBackup(id) {
-    this.cases.restoreBackup.execute(this, id);
+    this.cases.restoreBackup.execute(id);
   }
 
   async getPosts() {
-    this.posts = await this.cases.fetchPosts.execute(this.rest_api);
+    this.posts = await this.cases.fetchPosts.execute();
     return this.posts;
   }
 
   editPost(editedPost) {
-    this.posts = this.posts.map((post) => {
-      if (post.id !== editedPost.id) return post;
-      return editedPost;
-    });
+    this.cases.editPost.execute(editedPost);
   }
 
   async updatePost(editedPost) {
-    await this.cases.updatePost.execute(this, editedPost);
+    await this.cases.updatePost.execute(editedPost);
   }
 
   async deletePost(id) {
-    return await this.cases.deletePost.execute(this.rest_api, id);
+    return await this.cases.deletePost.execute(id);
   }
 }

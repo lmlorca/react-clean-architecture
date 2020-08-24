@@ -1,5 +1,9 @@
 export class RegisterAPI {
-  execute(interactor, rest_api) {
-    interactor.registeredAPIs.push(rest_api);
+  constructor(blog) {
+    this.blog = blog;
+  }
+  execute(rest_api) {
+    if (!this.blog.rest_api) this.blog.rest_api = rest_api;
+    this.blog.registeredAPIs.push(rest_api);
   }
 }

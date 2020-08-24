@@ -1,13 +1,17 @@
 export class RestoreBackup {
-  execute(interactor, id) {
-    const backup = interactor.backup.find((post) => post.id === id);
+  constructor(blog) {
+    this.blog = blog;
+  }
+
+  execute(id) {
+    const backup = this.blog.backup.find((post) => post.id === id);
 
     if (backup) {
-      interactor.posts = interactor.posts.map((post) => {
+      this.blog.posts = this.blog.posts.map((post) => {
         if (post.id !== id) return post;
         return backup;
       });
-      interactor.backup = interactor.backup.filter((post) => post.id !== id);
+      this.blog.backup = this.blog.backup.filter((post) => post.id !== id);
     }
   }
 }

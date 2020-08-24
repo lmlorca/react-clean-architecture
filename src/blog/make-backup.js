@@ -1,9 +1,13 @@
 export class MakeBackup {
-  execute(interactor, id) {
-    const backup = interactor.backup.find((post) => post.id === id);
+  constructor(blog) {
+    this.blog = blog;
+  }
+
+  execute(id) {
+    const backup = this.blog.backup.find((post) => post.id === id);
 
     if (!backup) {
-      interactor.backup.push(interactor.posts.find((post) => post.id === id));
+      this.blog.backup.push(this.blog.posts.find((post) => post.id === id));
     }
   }
 }

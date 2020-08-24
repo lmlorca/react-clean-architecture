@@ -8,10 +8,8 @@ export function Blog({ blog }) {
   }
 
   async function deletePost(id) {
-    const { status } = await blog.deletePost(id);
-    if (status === 200) {
-      setPosts(posts.filter((post) => post.id !== id));
-    }
+    await blog.deletePost(id);
+    setPosts(blog.posts);
   }
 
   async function updatePost(post) {

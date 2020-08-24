@@ -1,5 +1,9 @@
 export class FetchPosts {
+  constructor(blog) {
+    this.blog = blog;
+  }
+
   async execute(rest_api) {
-    return await rest_api.getPosts();
+    return await this.blog.rest_api.getPosts();
   }
 }
