@@ -8,7 +8,8 @@ export class InMemoryFakeAPI extends REST_API {
     this.description = "In-memory fake";
   }
   async getPosts() {
-    return Promise.resolve(db);
+    const jsonDB = JSON.stringify(db);
+    return Promise.resolve(JSON.parse(jsonDB));
   }
 
   async deletePost(id) {
@@ -18,6 +19,14 @@ export class InMemoryFakeAPI extends REST_API {
     }
     db = db.filter((post) => post.id !== id);
     return Promise.resolve({ status: 200 });
+  }
+
+  async createPost(post) {
+    const id = Math.max(db.map((post) => post.id)) + 1;
+    const newPost = { ...post, id };
+
+    db.push(newPost);
+    return Promise.resolve(newPost);
   }
 
   async updatePost(post) {
@@ -40,7 +49,7 @@ export class InMemoryFakeAPI extends REST_API {
   }
 }
 
-let db = [
+const db = [
   {
     body:
       "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",

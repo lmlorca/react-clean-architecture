@@ -1,6 +1,7 @@
 import { REST_API } from "./rest-api";
 import { FetchPosts } from "./fetch-posts";
 import { UpdatePost } from "./update-post";
+import { CreatePost } from "./create-post";
 import { EditPosts } from "./edit-post";
 import { DeletePost } from "./delete-post";
 import { MakeBackup } from "./make-backup";
@@ -13,6 +14,7 @@ export class BlogInteractor {
     this.cases = {
       fetchPosts: new FetchPosts(this),
       updatePost: new UpdatePost(this),
+      createPost: new CreatePost(this),
       editPost: new EditPosts(this),
       deletePost: new DeletePost(this),
       makeBackup: new MakeBackup(this),
@@ -52,6 +54,10 @@ export class BlogInteractor {
 
   editPost(editedPost) {
     this.cases.editPost.execute(editedPost);
+  }
+
+  async createPost(newPost) {
+    return await this.cases.createPost.execute(newPost);
   }
 
   async updatePost(editedPost) {

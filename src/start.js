@@ -16,6 +16,8 @@ function Start() {
     setApiKey(blog.changeAPI(key));
   }
 
+  const toggleNewPost = React.useState(false);
+
   return (
     <>
       <Header
@@ -26,7 +28,7 @@ function Start() {
         }))}
         selected={apiKey}
       />
-      <Blog blog={blog} key={apiKey} />
+      <Blog blog={blog} key={apiKey} toggleNewPost={toggleNewPost} />
     </>
   );
 }

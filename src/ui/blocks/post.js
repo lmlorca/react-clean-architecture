@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Icon } from "../elements";
+import { Card, Icon, TextArea, TextInput } from "../elements";
 
 export function Post(props) {
   const [isEditing, setIsEditing] = React.useState(false);
@@ -28,7 +28,7 @@ export function Post(props) {
   function postTitle() {
     if (isEditing) {
       return (
-        <input
+        <TextInput
           onChange={(e) =>
             props.handleEditPost({
               title: e.target.value,
@@ -36,8 +36,6 @@ export function Post(props) {
               id: props.id,
             })
           }
-          className="w-full p-4 bg-gray-100"
-          type="text"
           value={props.title}
         />
       );
@@ -49,7 +47,7 @@ export function Post(props) {
   function postBody() {
     if (isEditing) {
       return (
-        <textarea
+        <TextArea
           onChange={(e) =>
             props.handleEditPost({
               title: props.title,
@@ -57,8 +55,6 @@ export function Post(props) {
               id: props.id,
             })
           }
-          rows={6}
-          className="w-full p-4 bg-gray-100"
           value={props.body}
         />
       );
