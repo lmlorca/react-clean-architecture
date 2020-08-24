@@ -1,6 +1,6 @@
 import { REST_API } from "./rest-api";
 import { FetchPosts } from "./fetch-posts";
-import { EditPost } from "./edit-post";
+import { UpdatePost } from "./update-post";
 import { DeletePost } from "./delete-post";
 import { MakeBackup } from "./make-backup";
 import { RestoreBackup } from "./restore-backup";
@@ -10,14 +10,14 @@ export class BlogInteractor {
   constructor() {
     this.cases = {
       fetchPosts: new FetchPosts(),
-      editPost: new EditPost(),
+      updatePost: new UpdatePost(),
       deletePost: new DeletePost(),
       makeBackup: new MakeBackup(),
       restoreBackup: new RestoreBackup(),
       registerAPI: new RegisterAPI(),
     };
-    this.backup = [];
     this.posts = [];
+    this.backup = [];
     this.registeredAPIs = [];
   }
 
@@ -36,12 +36,12 @@ export class BlogInteractor {
     return this.rest_api.key;
   }
 
-  makeBackup(post) {
-    this.cases.makeBackup.execute(this, post);
+  makeBackup(id) {
+    this.cases.makeBackup.execute(this, id);
   }
 
   restoreBackup(id) {
-    return this.cases.restoreBackup.execute(this, id);
+    this.cases.restoreBackup.execute(this, id);
   }
 
   async getPosts() {
@@ -49,9 +49,15 @@ export class BlogInteractor {
     return this.posts;
   }
 
-  async editPost(editedPost) {
-    this.backup = this.backup.filter((post) => post.id !== editedPost.id);
-    return await this.cases.editPost.execute(this.rest_api, editedPost);
+  editPost(editedPost) {
+    this.posts = this.posts.map((post) => {
+      if (post.id !== editedPost.id) return post;
+      return editedPost;
+    });
+  }
+
+  async updatePost(editedPost) {
+    await this.cases.updatePost.execute(this, editedPost);
   }
 
   async deletePost(id) {

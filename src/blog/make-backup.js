@@ -1,11 +1,9 @@
 export class MakeBackup {
-  execute(interactor, post) {
-    const backupExists = interactor.backup.find(
-      (backupPost) => backupPost.id === post.id
-    );
+  execute(interactor, id) {
+    const backup = interactor.backup.find((post) => post.id === id);
 
-    if (!backupExists) {
-      interactor.backup.push(post);
+    if (!backup) {
+      interactor.backup.push(interactor.posts.find((post) => post.id === id));
     }
   }
 }

@@ -22,7 +22,7 @@ export class JSONPaceholderREST_API extends REST_API {
     }).then((res) => res);
   }
 
-  async editPost(post) {
+  async updatePost(post) {
     return fetch(this.url + post.id, {
       method: "PUT",
       body: JSON.stringify({

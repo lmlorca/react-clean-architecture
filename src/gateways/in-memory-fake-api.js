@@ -8,25 +8,25 @@ export class InMemoryFakeAPI extends REST_API {
     this.description = "In-memory fake";
   }
   async getPosts() {
-    return Promise.resolve(inMemoryPosts);
+    return Promise.resolve(db);
   }
 
   async deletePost(id) {
-    const post = inMemoryPosts.find((post) => post.id === id);
+    const post = db.find((post) => post.id === id);
     if (!post) {
       return Promise.resolve({ status: 404 });
     }
-    inMemoryPosts = inMemoryPosts.filter((post) => post.id !== id);
+    db = db.filter((post) => post.id !== id);
     return Promise.resolve({ status: 200 });
   }
 
-  async editPost(post) {
-    const exists = inMemoryPosts.find((p) => p.id === post.id);
+  async updatePost(post) {
+    const exists = db.find((p) => p.id === post.id);
     if (!exists) {
       return Promise.resolve({ status: 404 });
     }
 
-    inMemoryPosts = inMemoryPosts.map((p) => {
+    db = db.map((p) => {
       if (p.id !== post.id) return p;
 
       return {
@@ -40,7 +40,7 @@ export class InMemoryFakeAPI extends REST_API {
   }
 }
 
-let inMemoryPosts = [
+let db = [
   {
     body:
       "quia et suscipit\nsuscipit recusandae consequuntur expedita et cum\nreprehenderit molestiae ut ut quas totam\nnostrum rerum est autem sunt rem eveniet architecto",

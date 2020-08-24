@@ -8,7 +8,7 @@ export class REST_API {
   async deletePost() {
     throw new Error(this.error);
   }
-  async editPost() {
+  async updatePost() {
     throw new Error(this.error);
   }
 }

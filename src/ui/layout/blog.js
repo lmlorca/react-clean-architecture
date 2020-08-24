@@ -1,50 +1,34 @@
 import React from "react";
 import { Post } from "../blocks";
 
-export function Blog(props) {
+export function Blog({ blog }) {
   function restorePost(id) {
-    const postBackup = props.blog.restoreBackup(id);
-    setPosts(
-      posts.map((post) => {
-        if (post.id !== postBackup.id) return post;
-        return postBackup;
-      })
-    );
+    blog.restoreBackup(id);
+    setPosts(blog.posts);
   }
 
   async function deletePost(id) {
-    const { status } = await props.blog.deletePost(id);
+    const { status } = await blog.deletePost(id);
     if (status === 200) {
       setPosts(posts.filter((post) => post.id !== id));
     }
   }
 
   async function updatePost(post) {
-    const editedPost = await props.blog.editPost(post);
-
-    setPosts(
-      posts.map((post) => {
-        if (post.id !== editedPost.id) return post;
-        return editedPost;
-      })
-    );
+    await blog.updatePost(post);
+    setPosts(blog.posts);
   }
 
   function handleEditPost(editedPost) {
-    props.blog.makeBackup(posts.find((post) => post.id === editedPost.id));
-
-    setPosts(
-      posts.map((post) => {
-        if (post.id !== editedPost.id) return post;
-        return editedPost;
-      })
-    );
+    blog.makeBackup(editedPost.id);
+    blog.editPost(editedPost);
+    setPosts(blog.posts);
   }
 
   const [posts, setPosts] = React.useState([]);
 
   async function loadPosts() {
-    setPosts(await props.blog.getPosts());
+    setPosts(await blog.getPosts());
   }
 
   React.useEffect(function () {
