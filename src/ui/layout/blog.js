@@ -1,5 +1,5 @@
 import React from "react";
-import { Post, PostControls, NewPost } from "../blocks";
+import { Post, BlogControls, NewPost } from "../blocks";
 
 export function Blog(props) {
   const { blog, toggleNewPost } = props;
@@ -47,10 +47,9 @@ export function Blog(props) {
 
   return (
     <div className="container max-w-screen-md mx-auto pt-32">
-      <PostControls
+      <BlogControls
         toggleNewPost={toggleNewPost}
-        createPost={(newPost) => createPost(newPost)}
-        post={newPost}
+        createPost={() => createPost(newPost)}
       />
       {isNewPost ? (
         <NewPost post={newPost} setPost={setNewPost} />

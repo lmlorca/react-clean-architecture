@@ -1,6 +1,6 @@
 import React from "react";
 
-export function PostControls(props) {
+export function BlogControls(props) {
   const [isNewPost, setIsNewPost] = props.toggleNewPost;
 
   function render() {
@@ -17,7 +17,7 @@ export function PostControls(props) {
           </button>
           <button
             onClick={() => {
-              props.createPost(props.post).then(() => setIsNewPost(false));
+              props.createPost().then(() => setIsNewPost(false));
             }}
             className="bg-blue-500 hover:bg-blue-700 text-white text-sm font-bold py-2 px-4 mb-6 mx-2 rounded"
           >

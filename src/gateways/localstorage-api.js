@@ -48,7 +48,7 @@ export class LocalStorageAPI extends REST_API {
 
     db = db.map((p) => {
       if (p.id !== post.id) return p;
-      return post;
+      return { id: p.id, title: post.title, body: post.body };
     });
 
     localStorage.setItem("db", JSON.stringify(db));
