@@ -1,6 +1,7 @@
 import { BlogInteractor } from "./blog/blog-interactor";
 import { JSONPaceholderREST_API } from "./gateways/json-placeholder-rest-api";
 import { InMemoryFakeAPI } from "./gateways/in-memory-fake-api";
+import { LocalStorageAPI } from "./gateways/localstorage-api";
 import React from "react";
 import { render } from "react-dom";
 import { Blog, Header } from "./ui/layout";
@@ -8,6 +9,7 @@ import { Blog, Header } from "./ui/layout";
 const blog = new BlogInteractor();
 blog.registerAPI(new JSONPaceholderREST_API());
 blog.registerAPI(new InMemoryFakeAPI());
+blog.registerAPI(new LocalStorageAPI());
 
 function Start() {
   const [apiKey, setApiKey] = React.useState(blog.rest_api.key);
