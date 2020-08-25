@@ -31,7 +31,7 @@ export class LocalStorageAPI extends REST_API {
   async createPost(post) {
     const json = localStorage.getItem("db");
     const db = JSON.parse(json);
-    const id = Math.max(db.map((post) => post.id)) + 1;
+    const id = db.length ? Math.max(...db.map((post) => post.id)) + 1 : 1;
     const newPost = { ...post, id };
     db.push(newPost);
     localStorage.setItem("db", JSON.stringify(db));

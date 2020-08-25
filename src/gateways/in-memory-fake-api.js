@@ -22,7 +22,7 @@ export class InMemoryFakeAPI extends REST_API {
   }
 
   async createPost(post) {
-    const id = Math.max(db.map((post) => post.id)) + 1;
+    const id = db.length ? Math.max(...db.map((post) => post.id)) + 1 : 1;
     const newPost = { ...post, id };
 
     db.push(newPost);
