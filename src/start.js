@@ -1,4 +1,5 @@
 import { BlogController } from "./blog/blog-controller";
+import { DevServer } from "./gateways/localhost";
 import { JSONPaceholderREST_API } from "./gateways/json-placeholder-rest-api";
 import { InMemoryFakeAPI } from "./gateways/in-memory-fake-api";
 import { LocalStorageAPI } from "./gateways/localstorage-api";
@@ -7,6 +8,7 @@ import { render } from "react-dom";
 import { Blog, Header } from "./ui/layout";
 
 const blog = new BlogController();
+blog.registerAPI(new DevServer());
 blog.registerAPI(new JSONPaceholderREST_API());
 blog.registerAPI(new InMemoryFakeAPI());
 blog.registerAPI(new LocalStorageAPI());
