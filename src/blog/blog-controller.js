@@ -9,7 +9,7 @@ import { RestoreBackup } from "./restore-backup";
 import { RegisterAPI } from "./register-api";
 import { ChangeAPI } from "./change-api";
 
-export class BlogInteractor {
+export class BlogController {
   constructor() {
     this.cases = {
       fetchPosts: new FetchPosts(this),
